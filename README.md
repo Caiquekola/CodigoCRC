@@ -1,2 +1,2 @@
 # CodigoCRC
-Trabalho da matéria arquitetura e organização de computadores
+Trabalho da matéria arquitetura e organização de computadores sobre transferências de dados. Transmissão, Receptação e Interpretação da mensagem.
