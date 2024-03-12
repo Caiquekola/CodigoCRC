@@ -42,75 +42,66 @@ public class Transmissor {
         }
     }
     
+    //concatena o dado com 4 zeros
     private boolean[] dadoBitsCRC(boolean bits[]){
         
         //Polinômio gerador 1 0 0 1 1
         boolean[] polinomio = {true,false,false,true,true};
-        //Novo bit com 0's adicionais
+        //Novo dado (8 bits) com 0's adicionais
         boolean novoBits[] = new boolean[bits.length+4];
-        //Completando o bit
+        //Completando o dado
         for (int i = 0; i < novoBits.length; i++) {
-            
-            if(i<bits.length){
-                novoBits[i] = bits[i];    
-            }else{
-                novoBits[i] = false;
-            }
-            System.out.print((novoBits[i]==true)?"1 ":"0 ");
-            
+            //transfere o dado do parametro e add 4 zeros
+            if(i<bits.length) novoBits[i] = bits[i]; //(i<8)
+            else novoBits[i] = false;
         }
-        System.out.println("");
-        
-        
         
         return mensagemBitsCRC(novoBits,polinomio);
     }
+    
+    //calcula o CRC e concatena com o dado
     private boolean[] mensagemBitsCRC(boolean bits[],boolean polinomio[]){
         //XOR
-        boolean novosBits[] = new boolean[bits.length];
-        for (int i = 0; i < bits.length; i++) {
-            novosBits[i] = bits[i];
-        }
+        boolean novosBits[] = bits.clone();
         
-        //Divisão XOR
+        //Divisão XOR para obter o codigo CRC
         for (int i = 0; i < bits.length-4; i++) {
             
             //Se o bit for 0 pule para o próximo.
-            if(bits[i]==false){
-                continue;
-                
-            }else{
+            //Senao, faz o XOR com o polinomio
+            if(bits[i] == true){
                 int k = 0;
-                for (int j = i; j < i+5; j++) {
+                for (int j = i; j < (i + polinomio.length); j++) {
                     // 0 1 1 1 1 1 1 0 0 0 0 0
                     //   1 0 0 1 1 
                     // 0 0 1 1 0 0 1
                     bits[j] = !(bits[j]==polinomio[k]);
                     k++;
                 }
-                
-                
             }
-            for (int j = 0; j < bits.length; j++) {
-                System.out.print((bits[j]==true)?"1 ":"0 ");
-            }
-                        System.out.println("");
-
         }
-        System.out.println("Teste");
-        for (int i = bits.length-4; i < novosBits.length; i++) {
-            novosBits[i] = bits[i];
-            System.out.print(((novosBits[i]==true)?"1 ":"0 "));
+        System.out.print("Dado cru: ");
+        for (int m = 0; m < 8; m++) {
+            System.out.print(novosBits[m] + " ");
         }
         System.out.println("");
-        for (int j = 0; j < bits.length; j++) {
-                System.out.print((novosBits[j]==true)?"1 ":"0 ");
-            }
+        
+        System.out.print("Codigo CRC: ");
+        //concatena o dado com o codigo CRC calculado
+        for (int i = (bits.length - polinomio.length + 1); i < bits.length; i++) {
+            novosBits[i] = bits[i];
+            System.out.println(bits[i] + " ");
+        }
+        System.out.println("");
+        
+        System.out.print("Dado final: ");
+        for (int j = 0; j < 12; j++) {
+            System.out.print(novosBits[j] + " ");
+        }
+        System.out.println("");
         
         return novosBits;
-        
     }
-    
     
     public void enviaDado(Receptor receptor){
         for(int i = 0; i < this.mensagem.length();i++){
@@ -133,5 +124,13 @@ public class Transmissor {
             
             
         }
+    }
+    public void teste (){
+        dadoBitsCRC(streamCaracter('d'));
+    }
+    
+    public static void main(String[] args) {
+        Transmissor seuSmartphone = new Transmissor("ola");
+        seuSmartphone.teste();
     }
 }
