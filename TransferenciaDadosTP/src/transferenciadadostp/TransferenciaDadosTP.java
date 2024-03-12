@@ -19,5 +19,7 @@ public class TransferenciaDadosTP {
         //mensagem recebida no "servidor"
         System.out.println(umServidorQualquer.getMensagem());
         
+
+
     }    
 }

@@ -4,6 +4,8 @@ public class Receptor {
 
     //mensagem recebida pelo transmissor
     private String mensagem;
+    //Polinômio idêntico ao do transmissor
+    private boolean[] polinomio = {true,false,false,true,true};
 
     public Receptor() {
         //mensagem vazia no inicio da execução
@@ -34,7 +36,7 @@ public class Receptor {
         return true;
     }
 
-    private boolean decodificarDadoCRC(boolean bits[], boolean polinomio[]) {
+    private boolean decodificarDadoCRC(boolean bits[]) {
         
         boolean[] bitsDado = new boolean[8];
         
@@ -78,10 +80,10 @@ public class Receptor {
     }
 
     //recebe os dados do transmissor
-    public boolean receberDadoBits(boolean bits[], boolean polinomio[]) {
+    public boolean receberDadoBits(boolean bits[]) {
 
         //aqui você deve trocar o médodo decofificarDado para decoficarDadoCRC (implemente!!)
         //será que sempre teremos sucesso nessa recepção
-        return decodificarDadoCRC(bits, polinomio);
+        return decodificarDadoCRC(bits);
     }
 }

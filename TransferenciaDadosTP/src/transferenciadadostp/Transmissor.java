@@ -5,7 +5,9 @@ import java.util.Random;
 public class Transmissor {
 
     private String mensagem;
-
+    //Polinômio fixado
+    private boolean[] polinomio = {true,false,false,true,true};
+    
     public Transmissor(String mensagem) {
         this.mensagem = mensagem;
     }
@@ -60,11 +62,11 @@ public class Transmissor {
             }
         }
 
-        return mensagemBitsCRC(novoBits, polinomio);
+        return mensagemBitsCRC(novoBits);
     }
 
     //calcula o CRC e concatena com o dado
-    private boolean[] mensagemBitsCRC(boolean bits[], boolean polinomio[]) {
+    private boolean[] mensagemBitsCRC(boolean bits[]) {
         //XOR
         boolean novosBits[] = bits.clone();
 
@@ -100,9 +102,8 @@ public class Transmissor {
 
             //add ruidos na mensagem a ser enviada para o receptor
             //enviando a mensagem "pela rede" para o receptor (uma forma de testarmos esse método)
-            boolean[] polinomio = {true, false, false, true, true};
 
-            if (receptor.receberDadoBits(bitsCRC, polinomio) == false) {
+            if (receptor.receberDadoBits(bitsCRC) == false) {
                 i = i - 1;
             }
 
