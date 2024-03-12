@@ -44,10 +44,6 @@ public class Transmissor {
     
     private boolean[] dadoBitsCRC(boolean bits[]){
         
-        /*sua implementação aqui!!!
-        modifique o que precisar neste método
-        */
-        
         //Polinômio gerador 1 0 0 1 1
         boolean[] polinomio = {true,false,false,true,true};
         //Novo bit com 0's adicionais
@@ -60,9 +56,10 @@ public class Transmissor {
             }else{
                 novoBits[i] = false;
             }
+            System.out.print((novoBits[i]==true)?"1 ":"0 ");
             
         }
-        
+        System.out.println("");
         
         
         
@@ -70,32 +67,45 @@ public class Transmissor {
     }
     private boolean[] mensagemBitsCRC(boolean bits[],boolean polinomio[]){
         //XOR
-        boolean novosBits[] = bits;
+        boolean novosBits[] = new boolean[bits.length];
+        for (int i = 0; i < bits.length; i++) {
+            novosBits[i] = bits[i];
+        }
+        
+        //Divisão XOR
         for (int i = 0; i < bits.length-4; i++) {
-//            if(i==0){
-//                continue;
-//            }else if(i<=bits.length-4){
-//                
-//            }
-//            for (int j = i; j < 5; j++) {
-//                //Proximo é 0?
-//            }
-            //Divisão XOR
+            
+            //Se o bit for 0 pule para o próximo.
             if(bits[i]==false){
                 continue;
-            }else if(bits[i] == false && i>=bits.length){
-                break;
+                
             }else{
                 int k = 0;
                 for (int j = i; j < i+5; j++) {
+                    // 0 1 1 1 1 1 1 0 0 0 0 0
+                    //   1 0 0 1 1 
+                    // 0 0 1 1 0 0 1
                     bits[j] = !(bits[j]==polinomio[k]);
                     k++;
                 }
+                
+                
             }
+            for (int j = 0; j < bits.length; j++) {
+                System.out.print((bits[j]==true)?"1 ":"0 ");
+            }
+                        System.out.println("");
+
         }
-        for (int i = bits.length-4; i < bits.length; i++) {
+        System.out.println("Teste");
+        for (int i = bits.length-4; i < novosBits.length; i++) {
             novosBits[i] = bits[i];
+            System.out.print(((novosBits[i]==true)?"1 ":"0 "));
         }
+        System.out.println("");
+        for (int j = 0; j < bits.length; j++) {
+                System.out.print((novosBits[j]==true)?"1 ":"0 ");
+            }
         return novosBits;
         
     }
@@ -119,6 +129,7 @@ public class Transmissor {
             boolean[] polinomio = {true,false,false,true,true};
             boolean indicadorCRC = receptor.receberDadoBits(bitsCRC,polinomio);
             //o que faremos com o indicador quando houver algum erro? qual ação vamos tomar com o retorno do receptor
+            
             
         }
     }

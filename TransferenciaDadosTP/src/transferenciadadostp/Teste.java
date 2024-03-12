@@ -14,10 +14,11 @@ public class Teste {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Transmissor t = new Transmissor("oi");
+        Transmissor t = new Transmissor("o");
         Receptor receptor = new Receptor();
         t.enviaDado(receptor);
         System.out.println(receptor.getMensagem());
+        //01101111
         
     }
     

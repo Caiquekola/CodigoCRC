@@ -33,25 +33,52 @@ public class Receptor {
         return true;
     }
     
-    private void decodificarDadoCRC(boolean bits[],boolean polinomio[]){
-        boolean novosBits[] = bits;
+    private boolean decodificarDadoCRC(boolean bits[],boolean polinomio[]){
+        boolean novosBits[] = new boolean[bits.length];
+        for (int i = 0; i < bits.length; i++) {
+            novosBits[i] = bits[i];
+        }
+        
+        //Divisão XOR
         for (int i = 0; i < bits.length-4; i++) {
+            
+            //Se o bit for 0 pule para o próximo.
             if(bits[i]==false){
                 continue;
-            }
-            else{
+                
+            }else{
                 int k = 0;
                 for (int j = i; j < i+5; j++) {
+                    // 0 1 1 1 1 1 1 0 0 0 0 0
+                    //   1 0 0 1 1 
+                    // 0 0 1 1 0 0 1
                     bits[j] = !(bits[j]==polinomio[k]);
                     k++;
                 }
+                
+                
+            }
+            for (int j = 0; j < bits.length; j++) {
+                System.out.print((bits[j]==true)?"1 ":"0 ");
+            }
+                        System.out.println("");
+
+        }
+        System.out.println("Teste 2");
+        boolean logico = true;
+        for (int i = bits.length-4; i < novosBits.length; i++) {
+            novosBits[i] = bits[i];
+            System.out.print(((novosBits[i]==true)?"1 ":"0 "));
+            if(novosBits[i]==true){
+                logico = false;
             }
         }
-        for (int i = bits.length-4; i < bits.length; i++) {
-            novosBits[i] = bits[i];
-        }
-        //implemente a decodificação Hemming aqui e encontre os 
-        //erros e faça as devidas correções para ter a imagem correta
+        System.out.println("");
+        for (int j = 0; j < bits.length; j++) {
+                System.out.print((novosBits[j]==true)?"1 ":"0 ");
+            }
+        return logico;
+        
     }
     
     
