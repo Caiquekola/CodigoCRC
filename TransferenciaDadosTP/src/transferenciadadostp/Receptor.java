@@ -35,55 +35,41 @@ public class Receptor {
     }
 
     private boolean decodificarDadoCRC(boolean bits[], boolean polinomio[]) {
+        
         boolean[] bitsDado = new boolean[8];
-
-        boolean novosBits[] = new boolean[bits.length];
-        for (int i = 0; i < bits.length; i++) {
-            novosBits[i] = bits[i];
-            if (bits.length < 8) {
+        
+        
+        
+        for (int i = 0; i < bits.length-polinomio.length+1; i++) {
                 bitsDado[i] = bits[i];
-            }
         }
 
         //Divisão XOR
-        for (int i = 0; i < bits.length - 4; i++) {
+        for (int i = 0; i < bits.length - polinomio.length+1; i++) {
 
             //Se o bit for 0 pule para o próximo.
-            if (bits[i] == false) {
-                continue;
-
-            } else {
+            if(bits[i]==true) {
                 int k = 0;
                 for (int j = i; j < i + 5; j++) {
-                    // 0 1 1 1 1 1 1 0 0 0 0 0
-                    //   1 0 0 1 1 
-                    // 0 0 1 1 0 0 1
                     bits[j] = !(bits[j] == polinomio[k]);
                     k++;
                 }
 
             }
-            for (int j = 0; j < bits.length; j++) {
-                System.out.print((bits[j] == true) ? "1 " : "0 ");
-            }
-            System.out.println("");
 
         }
-        System.out.println("Teste 2");
-        boolean logico = true;
-        for (int i = bits.length - 4; i < novosBits.length; i++) {
-            novosBits[i] = bits[i];
-            System.out.print(((novosBits[i] == true) ? "1 " : "0 "));
-            if (novosBits[i] == true) {
-                logico = false;
+        
+        //Para testar se o código crc no final é nulo ( 0 0 0 0 )
+        boolean erroCRC = false;
+        
+        for (int i = bits.length - polinomio.length+1; i < bits.length; i++) {
+            if (bits[i] == true) {
+                erroCRC = true;
+                break;
             }
         }
-        System.out.println("");
-        for (int j = 0; j < bits.length; j++) {
-            System.out.print((novosBits[j] == true) ? "1 " : "0 ");
-        }
 
-        if (logico = true) {
+        if (erroCRC == false) {
             return decodificarDado(bitsDado);
         } else {
             return false;
@@ -95,10 +81,7 @@ public class Receptor {
     public boolean receberDadoBits(boolean bits[], boolean polinomio[]) {
 
         //aqui você deve trocar o médodo decofificarDado para decoficarDadoCRC (implemente!!)
-        decodificarDadoCRC(bits, polinomio);
-        
-
         //será que sempre teremos sucesso nessa recepção
-        return true;
+        return decodificarDadoCRC(bits, polinomio);
     }
 }
