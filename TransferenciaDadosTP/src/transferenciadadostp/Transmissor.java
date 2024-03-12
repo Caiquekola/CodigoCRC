@@ -106,6 +106,7 @@ public class Transmissor {
         for (int j = 0; j < bits.length; j++) {
                 System.out.print((novosBits[j]==true)?"1 ":"0 ");
             }
+        
         return novosBits;
         
     }
