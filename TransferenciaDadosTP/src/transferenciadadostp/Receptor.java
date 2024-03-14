@@ -5,7 +5,7 @@ public class Receptor {
     //mensagem recebida pelo transmissor
     private String mensagem;
     //Polinômio idêntico ao do transmissor
-    private boolean[] polinomio = {true,false,false,true,true};
+    private boolean[] polinomio = {true, false, false, true, true};
 
     public Receptor() {
         //mensagem vazia no inicio da execução
@@ -37,20 +37,15 @@ public class Receptor {
     }
 
     private boolean decodificarDadoCRC(boolean bits[]) {
-        
+
         boolean[] bitsDado = new boolean[8];
-        
-        
-        
-        for (int i = 0; i < bits.length-polinomio.length+1; i++) {
-                bitsDado[i] = bits[i];
+        for (int i = 0; i < bits.length - polinomio.length + 1; i++) {
+            bitsDado[i] = bits[i];
         }
-
         //Divisão XOR
-        for (int i = 0; i < bits.length - polinomio.length+1; i++) {
-
+        for (int i = 0; i < bits.length - polinomio.length + 1; i++) {
             //Se o bit for 0 pule para o próximo.
-            if(bits[i]==true) {
+            if (bits[i] == true) {
                 int k = 0;
                 for (int j = i; j < i + 5; j++) {
                     bits[j] = !(bits[j] == polinomio[k]);
@@ -60,17 +55,14 @@ public class Receptor {
             }
 
         }
-        
         //Para testar se o código crc no final é nulo ( 0 0 0 0 )
         boolean erroCRC = false;
-        
-        for (int i = bits.length - polinomio.length+1; i < bits.length; i++) {
+        for (int i = bits.length - polinomio.length + 1; i < bits.length; i++) {
             if (bits[i] == true) {
                 erroCRC = true;
                 break;
             }
         }
-
         if (erroCRC == false) {
             return decodificarDado(bitsDado);
         } else {

@@ -49,6 +49,7 @@ public class Transmissor {
     private boolean[] dadoBitsCRC(boolean bits[]) {
 
         //Polinômio gerador 1 0 0 1 1
+        boolean[] polinomio = {true, false, false, true, true};
         //Novo dado (8 bits) com 0's adicionais
         boolean novoBits[] = new boolean[bits.length + polinomio.length - 1];
         //Completando o dado
@@ -56,9 +57,7 @@ public class Transmissor {
             //transfere o dado do parametro e add 4 zeros
             if (i < bits.length) {
                 novoBits[i] = bits[i]; //(i<8)
-            } else {
-                novoBits[i] = false;
-            }
+            } 
         }
 
         return mensagemBitsCRC(novoBits);
@@ -68,10 +67,8 @@ public class Transmissor {
     private boolean[] mensagemBitsCRC(boolean bits[]) {
         //XOR
         boolean novosBits[] = bits.clone();
-
         //Divisão XOR para obter o codigo CRC
         for (int i = 0; i < bits.length - polinomio.length + 1; i++) {
-
             //Se o bit for 0 pule para o próximo.
             //Senao, faz o XOR com o polinomio
             if (bits[i] == true) {
@@ -103,6 +100,9 @@ public class Transmissor {
             //enviando a mensagem "pela rede" para o receptor (uma forma de testarmos esse método)
 
             if (receptor.receberDadoBits(bitsCRC) == false) {
+                //Se o receptor receber a mensagem com alguma interferência(erro) ele retorna falso e o loop se repete
+                //Para o caractere atual, ou seja, ele repete o loop de bits com o caractere atual
+                //Até que o dado seja enviado corretamente.
                 i = i - 1;
             }
 
