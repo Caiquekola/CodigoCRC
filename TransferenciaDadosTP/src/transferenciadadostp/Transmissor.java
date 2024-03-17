@@ -6,7 +6,7 @@ public class Transmissor {
 
     private String mensagem;
     //Polinômio fixado
-    private boolean[] polinomio = {true,false,false,true,true};
+    private static boolean[] polinomio = {true,false,false,true,true};
     
     public Transmissor(String mensagem) {
         this.mensagem = mensagem;
@@ -49,7 +49,6 @@ public class Transmissor {
     private boolean[] dadoBitsCRC(boolean bits[]) {
 
         //Polinômio gerador 1 0 0 1 1
-        boolean[] polinomio = {true, false, false, true, true};
         //Novo dado (8 bits) com 0's adicionais
         boolean novoBits[] = new boolean[bits.length + polinomio.length - 1];
         //Completando o dado
