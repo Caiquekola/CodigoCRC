@@ -16,7 +16,7 @@ public class Receptor {
         return mensagem;
     }
 
-    private boolean decodificarDado(boolean bits[]) {
+    private void decodificarDado(boolean bits[]) {
 
         int codigoAscii = 0;
         int expoente = bits.length - 1;
@@ -31,9 +31,6 @@ public class Receptor {
 
         //concatenando cada simbolo na mensagem original
         this.mensagem += (char) codigoAscii;
-
-        //esse retorno precisa ser pensado... será que o dado sempre chega sem ruído???
-        return true;
     }
 
     private boolean decodificarDadoCRC(boolean bits[]) {
