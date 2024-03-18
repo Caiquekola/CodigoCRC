@@ -31,6 +31,7 @@ public class Receptor {
 
         //concatenando cada simbolo na mensagem original
         this.mensagem += (char) codigoAscii;
+        
     }
 
     private boolean decodificarDadoCRC(boolean bits[]) {
@@ -61,7 +62,8 @@ public class Receptor {
             }
         }
         if (erroCRC == false) {
-            return decodificarDado(bitsDado);
+            decodificarDado(bitsDado);
+            return true;
         } else {
             return false;
         }
